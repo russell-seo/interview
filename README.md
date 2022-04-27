@@ -118,3 +118,104 @@
   
 </div>
 </details>
+
+<details>
+<summary>Spring 서버 동작 과정</summary>
+<div markdown="1">
+      - 스프링의 경우
+        1. 톰캣이 실행된다
+        2. ServletContextListener 의 스프링에서 제공하는 구현체인 ContextLoaderListener 에 의해 Application Context가 생성된다.
+        3. Application Context 가 생성되는 과정에서, 빈 정의(xml, component scan, @Configuration)에 의해 빈이 생성된다.
+        4. Application Context 에 저장된 빈들의 의존 관계가 주입된다.
+        5. 빈들의 생명주기에 맞는 메소드가 실행된다.(빈의 초기화 메소드, 소멸 메소드 등)
+      - 스프링 부트
+        1. @SpringBootConfiguration
+        2. @Component Scan
+        3. @EnableAutoConfiguration
+</div>
+</details>
+
+<details>
+<summary>Thread Local</summary>
+<div markdown="1">
+      - Thread Local 이란
+        - 각 Thread 마다 갖는 독립적인 지역 변수를 의미한다.
+        - Java.lang 패키지에서 제공하는 쓰레드 범위 변수. 한 쓰레드에서 공유할 변수.
+      - 특징
+        - 같은 쓰레드 내에서만 공유
+        - 따라서 같은 쓰레드 라면 해당 데이터를 메소드 매개변수로 넘겨줄 필요가 없다.
+      - 스프링에서 사용
+        - 트랜잭션 매니저에서 transaction Context를 전파하는데 사용된다.
+        - SpringSecurit에서는 ThreadLocal을 기본전략으로 SecurityContextHolder 를 사용한다.
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+
+</div>
+</details>
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+
+</div>
+</details>
