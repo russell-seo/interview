@@ -219,7 +219,7 @@
 </details>
 
 <details>
-<summary>Rest API 란?</summary>
+<summary>REST API 란?</summary>
 <div markdown="1">
   
   - REST란?
