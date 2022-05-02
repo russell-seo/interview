@@ -138,13 +138,14 @@
 <details>
 <summary>Thread Local</summary>
 <div markdown="1">
-      - Thread Local 이란
+  
+    - Thread Local 이란
         - 각 Thread 마다 갖는 독립적인 지역 변수를 의미한다.
         - Java.lang 패키지에서 제공하는 쓰레드 범위 변수. 한 쓰레드에서 공유할 변수.
-      - 특징
+    - 특징
         - 같은 쓰레드 내에서만 공유
         - 따라서 같은 쓰레드 라면 해당 데이터를 메소드 매개변수로 넘겨줄 필요가 없다.
-      - 스프링에서 사용
+    - 스프링에서 사용
         - 트랜잭션 매니저에서 transaction Context를 전파하는데 사용된다.
         - SpringSecurit에서는 ThreadLocal을 기본전략으로 SecurityContextHolder 를 사용한다.
 </div>
