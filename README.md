@@ -219,8 +219,32 @@
 </details>
 
 <details>
-<summary></summary>
+<summary>Rest API 란?</summary>
 <div markdown="1">
+  
+  - REST란?
+    - Representational State Transfer의 약자
+    - 자원을 이름(자원의 표현)으로 구분하여 해당 자원의 상태(정보)를 주고 받는 모든 것을 의미한다.
+      - 자원(Resource)의 표현(Representation)에 의한 상태 전달
+  -  REST 구성
+    - 자원(Resource) : URI
+      - 모든 자원은 URI라는 고유한 ID가 존재하며, 자원은 서버에 존재한다.
+    - 행위(Verb) : HTTP Method
+      - GET, POST, PUT, DELETE
+    - 표현(Representation)
+      - 클라이언트가 자원의 상태(정보)에 대한 조작을 요청하면 서버는 이에 적절한 응답을 보낸다.
+      - REST 에서 하나의 자원은 JSON, XML등 여러 형태의 Representation(표현)으로 나타내어 질 수 있다.
+  
+  - REST 제약 조건(이 모든 것을 지켜야 진정한 REST라고 할 수 있다.)
+      1. client - server
+      2. stateless (무상태성)
+      3. cache(캐시)
+      4. uniform interface(self-descriptive message, HATEOAS등)
+      5. layered system(다중 계층 - 보안, 로드밸런싱, 암호화 계층, 프록시 등등)
+      6. code-on-demand(optional)
+  - REST AP란?
+      - REST 기반의 규칙을 지켜서 설계된 API
+      - 개인적으로 모든 것은 클라이언트가 서버의 자원을 더 쉽게 이용할 수 있도록 하기 위함 인듯 하다.
 
 </div>
 </details>
