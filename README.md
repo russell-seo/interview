@@ -244,6 +244,7 @@
       5. layered system(다중 계층 - 보안, 로드밸런싱, 암호화 계층, 프록시 등등)
       6. code-on-demand(optional)
   - REST AP란?
+      - HTTP 통신에서 어떤 차원에 대한 CRUD 요청을 Resource 와 Method로 표현하여 특정한 형태로 전달하는 방식이다.
       - REST 기반의 규칙을 지켜서 설계된 API
       - 개인적으로 모든 것은 클라이언트가 서버의 자원을 더 쉽게 이용할 수 있도록 하기 위함 인듯 하다.
 
@@ -332,25 +333,42 @@
 
 
 <details>
-<summary></summary>
+<summary>Index Range Scan 과 Table Full Scan</summary>
 <div markdown="1">
+  
+  - Table Full Scan
+    - 순차 I/O 방식과 MultiBlock I/O 방식으로 디스크를 읽어 한 블록에 속한 모든 레코드를 한번에 읽어들이는 방법.
+  
+  - Index Range Scan
+    - 랜덤 I/O 와  Single Block I/O 로 레코드 하나를 읽기 위해 매번 I/O 를 통해 필요한 레코드를 읽는 방법
+  
+  - 무조건 Index Range Scan 이 좋은 것은 아니다.
+    - 조금만 생각해보면 위와 같이 읽을 데이터가 일정량을 넘으면 Index Range Scan의 경우 매 인덱스 마다 데이터를 가져와야 함으로 다량의 디스크 I/O 가 발생하게 된다.
+    - 그러므로 더 비효율적일 수도 있다.
+    - 다만, 큰 테이블에서 소량 데이터를 검색할 때는 당연히 Index Range Scan이 유용하다.
+
+</div>
+</details>
+  
+
+<details>
+<summary>Parameter 와 Argument의 차이</summary>
+<div markdown="1">
+  
+  - parameter : 함수를 선언할때 사용된 변수
+  - argument : 함수가 호출 되었을 때 함수의 파라미터로 넘어오는 실제 값
 
 </div>
 </details>
 
 
-<details>
-<summary></summary>
-<div markdown="1">
-
-</div>
-</details>
-
-
 
 <details>
-<summary></summary>
+<summary>HTTP 프로토콜 이란?</summary>
 <div markdown="1">
+  
+  - HTTP(Hyper Text Transfer Protocol)이란 서버/클라이언트 모델을 따라 데이터를 주고 받기 위한 프로토콜이다. 
+  - HTTP는 어플리케이션 레벨의 프로토콜 TCP/IP 위에서 동작한다. HTTP는 상태를 가지고 있지 않는 Stateless 프로토콜 이며 Method, Path, Version, Headers, Body등으로 구성된다.
 
 </div>
 </details>
