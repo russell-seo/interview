@@ -375,6 +375,76 @@
 
 
 <details>
+<summary>추상클래스와 인터페이스의 차이</summary>
+<div markdown="1">
+  
+  - 추상클래스
+    - 단일 상속만 가능하다.
+    - 모든 접근 제어자를 사용할 수 있다.
+    - 변수와 상수를 선언 할 수 있다.
+    - 추상 메소드와 일반 메소드를 선언할 수 있다.
+  - 인터페이스
+    - 다중 구현이 가능하다.
+    - public 접근 제어자만 가능하다.
+    - 상수만 선언 할 수 있다.
+    - 추상메소드만 선언 할 수 있다.
+
+</div>
+</details>
+
+
+<details>
+<summary>오버라이딩(Overriding) 과 오버로딩(Overloading)</summary>
+<div markdown="1">
+
+    - 오버라이딩(Overriding) : 상위 클래스가 가지고 있는 메소드를 하위 클래스에서 재정의 하는 기술
+    - 오버로딩(Overloading) : 매개변수의 유형과 개수를 변경하면서 같은 이름의 메소드를 여러 개 사용하는 기술
+  
+</div>
+</details>
+
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
+<summary></summary>
+<div markdown="1">
+
+</div>
+</details>
+
+
+<details>
 <summary></summary>
 <div markdown="1">
 
