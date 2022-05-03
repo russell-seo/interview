@@ -427,8 +427,18 @@
 
 
 <details>
-<summary></summary>
+<summary>call by value vs call by reference</summary>
 <div markdown="1">
+  
+  - call by value(값에 의한 호출)
+    - 함수가 호출될 때, 메모리 공간 안에서는 함수를 위한 별도의 임시공간이 생성됨(종료 시 해당 공간 사라짐)
+    - call by value 호출 방식은 함수 호출 시 전달되는 변수 값을 복사해서 함수 인자로 전달함
+    - 이때 복사된 인자는 함수 안에서 지역적으로 사용되기 때문에 local value 속성을 가짐
+    - 따라서 함수 안에서 인자 값이 변경되어도, 외부 변수 값은 변경 안됨.
+  
+  - call by reference(참조에 의한 호출)
+    - call by reference 호출 방식은 함수 호출 시 인자로 전달되는 변수의 레퍼런스를 전달함
+    - 따라서 함수 안에서 인자 값이 변경되면, 아규먼트로 전달된 객체의 값도 변경됨.
 
 </div>
 </details>
