@@ -47,7 +47,8 @@
 
 <details>
 <summary>스프링 핵심 원칙</summary>
-<div markdown="1">       
+<div markdown="1"> 
+  
   - 스프링 핵심 원칙은 세가지이다. IoC/DI, AOP, PSA
     - IoC
       - Inversion Of Control(제어의 역전)을 의미하며, 객체의 생성과 생명주기 관리까지 모든 객체에 대한 제어권을 개발자가 아닌 프레임워크 에게 위임한 것을 의미한다.
@@ -122,6 +123,7 @@
 <details>
 <summary>Spring 서버 동작 과정</summary>
 <div markdown="1">
+  
       - 스프링의 경우
         1. 톰캣이 실행된다
         2. ServletContextListener 의 스프링에서 제공하는 구현체인 ContextLoaderListener 에 의해 Application Context가 생성된다.
