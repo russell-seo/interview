@@ -4,7 +4,9 @@
   ## 기술 면접 관련 기록
   
   
-<details>
+  ## Spring
+  
+  <details>
 <summary>Spring Bean</summary>
 <div markdown="1">       
 
@@ -22,30 +24,8 @@
     - init method 와 destory method
 </div>
 </details>
-
-<details>
-<summary>POJO</summary>
-<div markdown="1">       
-
- - POJO 란?
-    - 진정한 POJO란 객체지향적인 원리에 충실하면서, 환경과 기술에 종속되지 않고 필요에 따라 재활용될 수 있는 방식으로 설계된 오브젝트를 말한다.
-        - 어떠한 프레임워크에도 의존하지 않는다.
-        - 자바를 이용한 테스트에 용이하다.
- - POJO의 두가지 의견
-    - 어떠한 프레임워크에도 완전히 의존하지 않는 자바 객체. (어노테이션이 붙은 것도 POJO가 아니란 의견)
-    - 자바 객체 안에 코드를 프레임워크를 바꿔도 그대로 재활용 할 수 있으면 POJO(특정 어노테이션이 존재해도 POJO라는 의견)
-
- - EJB 부터 스프링까지의 역사를 보면 두 번째가 맞는 듯 하다.
-    - EJB 시절에는 특정 기능(Service, Controller등) 을 만들기 위해서는 특정 인터페이스나 클래스는 extends 했어야 했다. 따라서 그 시절에는 특정 클래스의 EJB 프레임워크에
-      매우 의존적이었으며 기능을 활용하기 위해서 특정 Class를 extends 해야한다는 관점에서 객체지향적 특징을 잃어버리게 되었다.
-    - EJB때는 걔네들이 정의해둔 클래스/인터페이스를 상속/구현 -> 그래서 이거에 종속적이지 않는 것들은 POJO라고 부르자고 정한 것.
-    - 결론적으로 비지니스 코드가 특정 프레임워크에만 종속적이지 않다면 POJO라고 부른다.(어노테이션은 주석과 같이 마킹한다는 의미에서 코드에 직접적으로 영향을 주지 않으므로 제외)
-
-</div>
-</details>
-
-
-<details>
+  
+  <details>
 <summary>스프링 핵심 원칙</summary>
 <div markdown="1"> 
   
@@ -80,94 +60,55 @@
 
 </div>
 </details>
-
-
-<details>
-<summary>Servlet vs Servlet Container</summary>
-<div markdown="1"> 
   
-    - Servlet
-      - Java 로 HTTP 요청 및 응답을 처리하기 위한 표준
-      - 서블릿은 클라이언트의 HTTP요청을 받아 비즈니스 로직을 수행하고 적절한 HTTP 응답을 생성하는 자바 객체이다.
-      - 웹페이지를 동적으로 생성하는 역할
-      - 서블릿은 일반 자바 객체와 달리 서블릿 컨테이너 내에서만 실행된다.
-  
-    - Servlet Container
-      - 클라이언트로 부터 HTTP 요청 메시지를 적절하게 파싱 한 후, 쓰레드를 생성하여 적절한 서블릿을 실행시키고, 서블릿으로부터 응답받은 요청 처리 결과를 이용해 HTTP 응답 메시지를 만들어주는 컴포넌트
-      - 웹 서비스에 필요한 다양한 기능을 제공하며, 개발자로 하여금 비즈니스 로직(Servelt 구현) 만 집중할 수 있도록 도와주는 프레임 워크
-      - 지원하는 기능
-        - tcp/ip 소켓 연결 및 종료(통신 지원)
-        - HTTP요청 메시지 파싱 및 응답 메시지 생성
-        - 서블릿 생명주기 관리
-        - 멀티쓰레딩 지원(요청당 스레드로 처리)
-        - 선언적인 보안 관리
-        - 대표적인 Servlet Container : tomcat, netty
-</div>
-</details>
-
-<details>
-<summary>Servlet Container 동작 흐름</summary>
-<div markdown="1">
-      
-      - 사용자 요청 파싱
-      - 새로운 쓰레드를 생성하고, HttpServeltRequest, HttpServletResposne 생성.
-      - 사용자 요청을 분석하여 대응되는 서블릿 검색(DD.xml을 통해 서블릿을 미리 정의해둔다.)
-      - 찾은 서블릿의 service() 메소드를 호출함으로써, 비즈니스 로직 처리 위임
-      - 서블릿은 클라이언트에게 넘길 응답을 작성. 이때 Response 객체를 사용한다.
-      - Servlet Container가 서블릿으로 부터 받은 Response를 적절한 Http response로 만들어 클라이언트에 반환
-      - 요청을 처리한 쓰레드는 소멸하거나 쓰레드 풀로 반환.
-  
-</div>
-</details>
 
 <details>
 <summary>Spring 서버 동작 과정</summary>
 <div markdown="1">
   
-      - 스프링의 경우
+  - 스프링의 경우
+  
         1. 톰캣이 실행된다
         2. ServletContextListener 의 스프링에서 제공하는 구현체인 ContextLoaderListener 에 의해 Application Context가 생성된다.
         3. Application Context 가 생성되는 과정에서, 빈 정의(xml, component scan, @Configuration)에 의해 빈이 생성된다.
         4. Application Context 에 저장된 빈들의 의존 관계가 주입된다.
         5. 빈들의 생명주기에 맞는 메소드가 실행된다.(빈의 초기화 메소드, 소멸 메소드 등)
-      - 스프링 부트
+  
+  - 스프링 부트
+  
         1. @SpringBootConfiguration
         2. @Component Scan
         3. @EnableAutoConfiguration
 </div>
 </details>
-
-<details>
-<summary>Thread Local</summary>
-<div markdown="1">
   
-    - Thread Local 이란
-        - 각 Thread 마다 갖는 독립적인 지역 변수를 의미한다.
-        - Java.lang 패키지에서 제공하는 쓰레드 범위 변수. 한 쓰레드에서 공유할 변수.
-    - 특징
-        - 같은 쓰레드 내에서만 공유
-        - 따라서 같은 쓰레드 라면 해당 데이터를 메소드 매개변수로 넘겨줄 필요가 없다.
-    - 스프링에서 사용
-        - 트랜잭션 매니저에서 transaction Context를 전파하는데 사용된다.
-        - SpringSecurit에서는 ThreadLocal을 기본전략으로 SecurityContextHolder 를 사용한다.
-</div>
-</details>
-
-<details>
-<summary>JPA N+1 문제</summary>
-<div markdown="1">
+  ## JAVA
   
-   - JPA N+1 문제란?
-      - 쿼리 1번으로 N개의 엔티티를 가져왔는데, 지연로딩으로 인해 N개의 엔티티 개수만큼 추가로 쿼리를 날리는 문제를 말한다.
-      - 예를 들어 Member Entity를 조회하는데 Member 가 속한 Team 을 가져와야 하면 Team 테이블에 쿼리를 날린다.
-   - 해결 방안
-      - fetch join`select m from Member m join fetch m.team`
-      - batch size
-      - 위 두가지 방법이 있다.
+  
+  <details>
+<summary>POJO</summary>
+<div markdown="1">       
+
+ - POJO 란?
+    - 진정한 POJO란 객체지향적인 원리에 충실하면서, 환경과 기술에 종속되지 않고 필요에 따라 재활용될 수 있는 방식으로 설계된 오브젝트를 말한다.
+        - 어떠한 프레임워크에도 의존하지 않는다.
+        - 자바를 이용한 테스트에 용이하다.
+ - POJO의 두가지 의견
+    - 어떠한 프레임워크에도 완전히 의존하지 않는 자바 객체. (어노테이션이 붙은 것도 POJO가 아니란 의견)
+    - 자바 객체 안에 코드를 프레임워크를 바꿔도 그대로 재활용 할 수 있으면 POJO(특정 어노테이션이 존재해도 POJO라는 의견)
+
+ - EJB 부터 스프링까지의 역사를 보면 두 번째가 맞는 듯 하다.
+    - EJB 시절에는 특정 기능(Service, Controller등) 을 만들기 위해서는 특정 인터페이스나 클래스는 extends 했어야 했다. 따라서 그 시절에는 특정 클래스의 EJB 프레임워크에
+      매우 의존적이었으며 기능을 활용하기 위해서 특정 Class를 extends 해야한다는 관점에서 객체지향적 특징을 잃어버리게 되었다.
+    - EJB때는 걔네들이 정의해둔 클래스/인터페이스를 상속/구현 -> 그래서 이거에 종속적이지 않는 것들은 POJO라고 부르자고 정한 것.
+    - 결론적으로 비지니스 코드가 특정 프레임워크에만 종속적이지 않다면 POJO라고 부른다.(어노테이션은 주석과 같이 마킹한다는 의미에서 코드에 직접적으로 영향을 주지 않으므로 제외)
 
 </div>
 </details>
-
+  
+  
+  ## DB 
+  
 <details>
 <summary>인덱스</summary>
 <div markdown="1">
@@ -220,6 +161,85 @@
       - 컴퓨터가 종료되거나 시스템 장애가 나타나도 계속 저장되는 성질(RAM 이 아닌 SSD에 저장된 상태)
 </div>
 </details>
+
+
+## 
+
+
+
+
+<details>
+<summary>Servlet vs Servlet Container</summary>
+<div markdown="1"> 
+  
+    - Servlet
+      - Java 로 HTTP 요청 및 응답을 처리하기 위한 표준
+      - 서블릿은 클라이언트의 HTTP요청을 받아 비즈니스 로직을 수행하고 적절한 HTTP 응답을 생성하는 자바 객체이다.
+      - 웹페이지를 동적으로 생성하는 역할
+      - 서블릿은 일반 자바 객체와 달리 서블릿 컨테이너 내에서만 실행된다.
+  
+    - Servlet Container
+      - 클라이언트로 부터 HTTP 요청 메시지를 적절하게 파싱 한 후, 쓰레드를 생성하여 적절한 서블릿을 실행시키고, 서블릿으로부터 응답받은 요청 처리 결과를 이용해 HTTP 응답 메시지를 만들어주는 컴포넌트
+      - 웹 서비스에 필요한 다양한 기능을 제공하며, 개발자로 하여금 비즈니스 로직(Servelt 구현) 만 집중할 수 있도록 도와주는 프레임 워크
+      - 지원하는 기능
+        - tcp/ip 소켓 연결 및 종료(통신 지원)
+        - HTTP요청 메시지 파싱 및 응답 메시지 생성
+        - 서블릿 생명주기 관리
+        - 멀티쓰레딩 지원(요청당 스레드로 처리)
+        - 선언적인 보안 관리
+        - 대표적인 Servlet Container : tomcat, netty
+</div>
+</details>
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+      
+      - 사용자 요청 파싱
+      - 새로운 쓰레드를 생성하고, HttpServeltRequest, HttpServletResposne 생성.
+      - 사용자 요청을 분석하여 대응되는 서블릿 검색(DD.xml을 통해 서블릿을 미리 정의해둔다.)
+      - 찾은 서블릿의 service() 메소드를 호출함으로써, 비즈니스 로직 처리 위임
+      - 서블릿은 클라이언트에게 넘길 응답을 작성. 이때 Response 객체를 사용한다.
+      - Servlet Container가 서블릿으로 부터 받은 Response를 적절한 Http response로 만들어 클라이언트에 반환
+      - 요청을 처리한 쓰레드는 소멸하거나 쓰레드 풀로 반환.
+  
+</div>
+</details>
+
+
+
+<details>
+<summary>Thread Local</summary>
+<div markdown="1">
+  
+    - Thread Local 이란
+        - 각 Thread 마다 갖는 독립적인 지역 변수를 의미한다.
+        - Java.lang 패키지에서 제공하는 쓰레드 범위 변수. 한 쓰레드에서 공유할 변수.
+    - 특징
+        - 같은 쓰레드 내에서만 공유
+        - 따라서 같은 쓰레드 라면 해당 데이터를 메소드 매개변수로 넘겨줄 필요가 없다.
+    - 스프링에서 사용
+        - 트랜잭션 매니저에서 transaction Context를 전파하는데 사용된다.
+        - SpringSecurit에서는 ThreadLocal을 기본전략으로 SecurityContextHolder 를 사용한다.
+</div>
+</details>
+
+<details>
+<summary>JPA N+1 문제</summary>
+<div markdown="1">
+  
+   - JPA N+1 문제란?
+      - 쿼리 1번으로 N개의 엔티티를 가져왔는데, 지연로딩으로 인해 N개의 엔티티 개수만큼 추가로 쿼리를 날리는 문제를 말한다.
+      - 예를 들어 Member Entity를 조회하는데 Member 가 속한 Team 을 가져와야 하면 Team 테이블에 쿼리를 날린다.
+   - 해결 방안
+      - fetch join`select m from Member m join fetch m.team`
+      - batch size
+      - 위 두가지 방법이 있다.
+
+</div>
+</details>
+
+
 
 <details>
 <summary>REST API 란?</summary>
