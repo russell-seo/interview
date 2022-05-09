@@ -318,8 +318,25 @@
 </details>  
 
 <details>
-<summary></summary>
+<summary>Thread-Safe란?</summary>
 <div markdown="1">
+  
+  - Thread-Safe란 멀티 스레드 환경에서 어떤 함수나 변수, 혹은 객체가 여러 스레드로부터 동시에 접근해도 프로그램의 실행에 문제가 없음을 의미한다.
+    - 다른 스레드로 인해 부수효과가 발생하지 않는 것을 의미
+    - 두 개의 스레드가 동시에 데이터에 접근하여 변경한다면 계산 결과가 덮어씌워지기 때문에 Thread-Safe하게 만들어줘야한다.
+  
+  - Thread-Safe 예시
+    - `synchronized` 붙은 메서드, `ConcurrentHashMap`등등
+  
+  - Thread-Safe 하게 만들기 위해선
+    - Mutual Exclustion
+      - Thread에 Lock 이나 Semaphore를 걸어서 공유하는 자원에는 하나의 thread만 접근 가능하게 만든다.
+    
+    - Thread-Local
+      - 각 스레드에만 접근 가능한 저장소를 사용하여 동시 접근을 막는다.
+  
+    - 불변 객체
+      - 객체 생성 이후에 값을 변경할 수 없도록 만든다.
   
 </div>
 </details>  
