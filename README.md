@@ -106,6 +106,140 @@
 </div>
 </details>
   
+
+<details>
+<summary>Servlet vs Servlet Container</summary>
+<div markdown="1"> 
+  
+    - Servlet
+      - Java 로 HTTP 요청 및 응답을 처리하기 위한 표준
+      - 서블릿은 클라이언트의 HTTP요청을 받아 비즈니스 로직을 수행하고 적절한 HTTP 응답을 생성하는 자바 객체이다.
+      - 웹페이지를 동적으로 생성하는 역할
+      - 서블릿은 일반 자바 객체와 달리 서블릿 컨테이너 내에서만 실행된다.
+  
+    - Servlet Container
+      - 클라이언트로 부터 HTTP 요청 메시지를 적절하게 파싱 한 후, 쓰레드를 생성하여 적절한 서블릿을 실행시키고, 서블릿으로부터 응답받은 요청 처리 결과를 이용해 HTTP 응답 메시지를 만들어주는 컴포넌트
+      - 웹 서비스에 필요한 다양한 기능을 제공하며, 개발자로 하여금 비즈니스 로직(Servelt 구현) 만 집중할 수 있도록 도와주는 프레임 워크
+      - 지원하는 기능
+        - tcp/ip 소켓 연결 및 종료(통신 지원)
+        - HTTP요청 메시지 파싱 및 응답 메시지 생성
+        - 서블릿 생명주기 관리
+        - 멀티쓰레딩 지원(요청당 스레드로 처리)
+        - 선언적인 보안 관리
+        - 대표적인 Servlet Container : tomcat, netty
+</div>
+</details>
+
+
+<details>
+<summary>Servlet Container 동작 흐름</summary>
+<div markdown="1">
+      
+      - 사용자 요청 파싱
+      - 새로운 쓰레드를 생성하고, HttpServeltRequest, HttpServletResposne 생성.
+      - 사용자 요청을 분석하여 대응되는 서블릿 검색(DD.xml을 통해 서블릿을 미리 정의해둔다.)
+      - 찾은 서블릿의 service() 메소드를 호출함으로써, 비즈니스 로직 처리 위임
+      - 서블릿은 클라이언트에게 넘길 응답을 작성. 이때 Response 객체를 사용한다.
+      - Servlet Container가 서블릿으로 부터 받은 Response를 적절한 Http response로 만들어 클라이언트에 반환
+      - 요청을 처리한 쓰레드는 소멸하거나 쓰레드 풀로 반환.
+  
+</div>
+</details>
+
+<details>
+<summary>Parameter 와 Argument의 차이</summary>
+<div markdown="1">
+  
+  - parameter : 함수를 선언할때 사용된 변수
+  - argument : 함수가 호출 되었을 때 함수의 파라미터로 넘어오는 실제 값
+
+</div>
+</details>
+
+
+
+
+
+
+<details>
+<summary>추상클래스와 인터페이스의 차이</summary>
+<div markdown="1">
+  
+  - 추상클래스
+    - 단일 상속만 가능하다.
+    - 모든 접근 제어자를 사용할 수 있다.
+    - 변수와 상수를 선언 할 수 있다.
+    - 추상 메소드와 일반 메소드를 선언할 수 있다.
+  - 인터페이스
+    - 다중 구현이 가능하다.
+    - public 접근 제어자만 가능하다.
+    - 상수만 선언 할 수 있다.
+    - 추상메소드만 선언 할 수 있다.
+
+</div>
+</details>
+
+
+<details>
+<summary>오버라이딩(Overriding) 과 오버로딩(Overloading)</summary>
+<div markdown="1">
+
+    - 오버라이딩(Overriding) : 상위 클래스가 가지고 있는 메소드를 하위 클래스에서 재정의 하는 기술
+    - 오버로딩(Overloading) : 매개변수의 유형과 개수를 변경하면서 같은 이름의 메소드를 여러 개 사용하는 기술
+  
+</div>
+</details>
+
+
+<details>
+<summary>싱글톤 패턴</summary>
+<div markdown="1">
+  
+  - 싱글톤 패턴이란?
+    - 애플리케이션이 시작될 때, 어떤 클래스가 최초 한번만 메모리를 할당(static)하고 해당 메모리에 인스턴스를 만들어 사용하는 패턴
+    - 즉 싱글톤 패턴은 하나의 인스턴스만 생성하여 사용하는 디자인패턴
+    - 인스턴스가 필요할 때, 똑같은 인스턴스를 만들지 않고 기존의 인스턴스를 활용하는 것
+  - 왜 쓰나?
+    - 먼저 객체를 생성할 때 마다 메모리 영역을 할당받아야 한다. 하지만 한번의 new 를 통해 객체를 생성한다면 메모리 낭비를 방지 할 수 있다.
+    - 또 싱글톤으로 구현한 인스턴스는 전역 이므로 다른 클래스의 인스턴스들이 데이터를 공유하는 것이 가능한 장점이 있다.
+
+  - 스프링 컨테이너는 싱글톤 패턴을 적용하지 않아도, 객체 인스턴스를 싱글톤으로 관리한다.
+  - 그래서 스프링 컨테이너는 싱글톤 패턴의 문제점을 해결하면서, 객체 인스턴스를 싱글톤(1개만 생성) 으로 관리한다.
+  - 지금까지 써 왔던 스프링 빈이 바로 싱글톤 패턴으로 관리되는 빈이다.
+ 
+</div>
+</details>
+
+
+<details>
+<summary>call by value vs call by reference</summary>
+<div markdown="1">
+  
+  - call by value(값에 의한 호출)
+    - 함수가 호출될 때, 메모리 공간 안에서는 함수를 위한 별도의 임시공간이 생성됨(종료 시 해당 공간 사라짐)
+    - call by value 호출 방식은 함수 호출 시 전달되는 변수 값을 복사해서 함수 인자로 전달함
+    - 이때 복사된 인자는 함수 안에서 지역적으로 사용되기 때문에 local value 속성을 가짐
+    - 따라서 함수 안에서 인자 값이 변경되어도, 외부 변수 값은 변경 안됨.
+  
+  - call by reference(참조에 의한 호출)
+    - call by reference 호출 방식은 함수 호출 시 인자로 전달되는 변수의 레퍼런스를 전달함
+    - 따라서 함수 안에서 인자 값이 변경되면, 아규먼트로 전달된 객체의 값도 변경됨.
+
+</div>
+</details>
+
+
+<details>
+<summary>생성자 주입</summary>
+<div markdown="1">
+
+  - 생성자 호출 시점에 딱 1번만 호출되는 것이 보장됩니다.
+  - 생성자 주입은 객체를 생성할 때 딱 1번만 호출되므로 이후에 호출되는 일이 없습니다. 따라서 불변하게 설계 할 수 있습니다.
+  - 생성자 주입을 사용하면 의존성 주입을 누락하는 것을 방지 할 수 있습니다. 컴파일 오류로 누락을 방지
+  - setter 를 사용하면 final이 assgin reference 인데, 이를 변경할 수 있음.
+  - 원하는 구현체를 주입할 수 있으며, 순수 자바코드로 테스트를 실행할 수 있습니다.
+</div>
+</details>
   
   ## DB 
   
@@ -162,51 +296,44 @@
 </div>
 </details>
 
-
-## 
-
-
-
-
 <details>
-<summary>Servlet vs Servlet Container</summary>
-<div markdown="1"> 
-  
-    - Servlet
-      - Java 로 HTTP 요청 및 응답을 처리하기 위한 표준
-      - 서블릿은 클라이언트의 HTTP요청을 받아 비즈니스 로직을 수행하고 적절한 HTTP 응답을 생성하는 자바 객체이다.
-      - 웹페이지를 동적으로 생성하는 역할
-      - 서블릿은 일반 자바 객체와 달리 서블릿 컨테이너 내에서만 실행된다.
-  
-    - Servlet Container
-      - 클라이언트로 부터 HTTP 요청 메시지를 적절하게 파싱 한 후, 쓰레드를 생성하여 적절한 서블릿을 실행시키고, 서블릿으로부터 응답받은 요청 처리 결과를 이용해 HTTP 응답 메시지를 만들어주는 컴포넌트
-      - 웹 서비스에 필요한 다양한 기능을 제공하며, 개발자로 하여금 비즈니스 로직(Servelt 구현) 만 집중할 수 있도록 도와주는 프레임 워크
-      - 지원하는 기능
-        - tcp/ip 소켓 연결 및 종료(통신 지원)
-        - HTTP요청 메시지 파싱 및 응답 메시지 생성
-        - 서블릿 생명주기 관리
-        - 멀티쓰레딩 지원(요청당 스레드로 처리)
-        - 선언적인 보안 관리
-        - 대표적인 Servlet Container : tomcat, netty
-</div>
-</details>
-
-<details>
-<summary>Servlet Container 동작 흐름</summary>
+<summary>Index Range Scan 과 Table Full Scan</summary>
 <div markdown="1">
-      
-      - 사용자 요청 파싱
-      - 새로운 쓰레드를 생성하고, HttpServeltRequest, HttpServletResposne 생성.
-      - 사용자 요청을 분석하여 대응되는 서블릿 검색(DD.xml을 통해 서블릿을 미리 정의해둔다.)
-      - 찾은 서블릿의 service() 메소드를 호출함으로써, 비즈니스 로직 처리 위임
-      - 서블릿은 클라이언트에게 넘길 응답을 작성. 이때 Response 객체를 사용한다.
-      - Servlet Container가 서블릿으로 부터 받은 Response를 적절한 Http response로 만들어 클라이언트에 반환
-      - 요청을 처리한 쓰레드는 소멸하거나 쓰레드 풀로 반환.
   
+  - Table Full Scan
+    - 순차 I/O 방식과 MultiBlock I/O 방식으로 디스크를 읽어 한 블록에 속한 모든 레코드를 한번에 읽어들이는 방법.
+  
+  - Index Range Scan
+    - 랜덤 I/O 와  Single Block I/O 로 레코드 하나를 읽기 위해 매번 I/O 를 통해 필요한 레코드를 읽는 방법
+  
+  - 무조건 Index Range Scan 이 좋은 것은 아니다.
+    - 조금만 생각해보면 위와 같이 읽을 데이터가 일정량을 넘으면 Index Range Scan의 경우 매 인덱스 마다 데이터를 가져와야 함으로 다량의 디스크 I/O 가 발생하게 된다.
+    - 그러므로 더 비효율적일 수도 있다.
+    - 다만, 큰 테이블에서 소량 데이터를 검색할 때는 당연히 Index Range Scan이 유용하다.
+
 </div>
 </details>
 
 
+## JPA
+
+<details>
+<summary>JPA N+1 문제</summary>
+<div markdown="1">
+  
+   - JPA N+1 문제란?
+      - 쿼리 1번으로 N개의 엔티티를 가져왔는데, 지연로딩으로 인해 N개의 엔티티 개수만큼 추가로 쿼리를 날리는 문제를 말한다.
+      - 예를 들어 Member Entity를 조회하는데 Member 가 속한 Team 을 가져와야 하면 Team 테이블에 쿼리를 날린다.
+   - 해결 방안
+      - fetch join`select m from Member m join fetch m.team`
+      - batch size
+      - 위 두가지 방법이 있다.
+
+</div>
+</details>
+
+
+## 네트워크
 
 <details>
 <summary>Thread Local</summary>
@@ -224,20 +351,7 @@
 </div>
 </details>
 
-<details>
-<summary>JPA N+1 문제</summary>
-<div markdown="1">
-  
-   - JPA N+1 문제란?
-      - 쿼리 1번으로 N개의 엔티티를 가져왔는데, 지연로딩으로 인해 N개의 엔티티 개수만큼 추가로 쿼리를 날리는 문제를 말한다.
-      - 예를 들어 Member Entity를 조회하는데 Member 가 속한 Team 을 가져와야 하면 Team 테이블에 쿼리를 날린다.
-   - 해결 방안
-      - fetch join`select m from Member m join fetch m.team`
-      - batch size
-      - 위 두가지 방법이 있다.
 
-</div>
-</details>
 
 
 
@@ -352,39 +466,6 @@
 </div>
 </details>
 
-
-
-<details>
-<summary>Index Range Scan 과 Table Full Scan</summary>
-<div markdown="1">
-  
-  - Table Full Scan
-    - 순차 I/O 방식과 MultiBlock I/O 방식으로 디스크를 읽어 한 블록에 속한 모든 레코드를 한번에 읽어들이는 방법.
-  
-  - Index Range Scan
-    - 랜덤 I/O 와  Single Block I/O 로 레코드 하나를 읽기 위해 매번 I/O 를 통해 필요한 레코드를 읽는 방법
-  
-  - 무조건 Index Range Scan 이 좋은 것은 아니다.
-    - 조금만 생각해보면 위와 같이 읽을 데이터가 일정량을 넘으면 Index Range Scan의 경우 매 인덱스 마다 데이터를 가져와야 함으로 다량의 디스크 I/O 가 발생하게 된다.
-    - 그러므로 더 비효율적일 수도 있다.
-    - 다만, 큰 테이블에서 소량 데이터를 검색할 때는 당연히 Index Range Scan이 유용하다.
-
-</div>
-</details>
-  
-
-<details>
-<summary>Parameter 와 Argument의 차이</summary>
-<div markdown="1">
-  
-  - parameter : 함수를 선언할때 사용된 변수
-  - argument : 함수가 호출 되었을 때 함수의 파라미터로 넘어오는 실제 값
-
-</div>
-</details>
-
-
-
 <details>
 <summary>HTTP 프로토콜 이란?</summary>
 <div markdown="1">
@@ -394,88 +475,6 @@
 
 </div>
 </details>
-
-
-<details>
-<summary>추상클래스와 인터페이스의 차이</summary>
-<div markdown="1">
-  
-  - 추상클래스
-    - 단일 상속만 가능하다.
-    - 모든 접근 제어자를 사용할 수 있다.
-    - 변수와 상수를 선언 할 수 있다.
-    - 추상 메소드와 일반 메소드를 선언할 수 있다.
-  - 인터페이스
-    - 다중 구현이 가능하다.
-    - public 접근 제어자만 가능하다.
-    - 상수만 선언 할 수 있다.
-    - 추상메소드만 선언 할 수 있다.
-
-</div>
-</details>
-
-
-<details>
-<summary>오버라이딩(Overriding) 과 오버로딩(Overloading)</summary>
-<div markdown="1">
-
-    - 오버라이딩(Overriding) : 상위 클래스가 가지고 있는 메소드를 하위 클래스에서 재정의 하는 기술
-    - 오버로딩(Overloading) : 매개변수의 유형과 개수를 변경하면서 같은 이름의 메소드를 여러 개 사용하는 기술
-  
-</div>
-</details>
-
-
-<details>
-<summary>싱글톤 패턴</summary>
-<div markdown="1">
-  
-  - 싱글톤 패턴이란?
-    - 애플리케이션이 시작될 때, 어떤 클래스가 최초 한번만 메모리를 할당(static)하고 해당 메모리에 인스턴스를 만들어 사용하는 패턴
-    - 즉 싱글톤 패턴은 하나의 인스턴스만 생성하여 사용하는 디자인패턴
-    - 인스턴스가 필요할 때, 똑같은 인스턴스를 만들지 않고 기존의 인스턴스를 활용하는 것
-  - 왜 쓰나?
-    - 먼저 객체를 생성할 때 마다 메모리 영역을 할당받아야 한다. 하지만 한번의 new 를 통해 객체를 생성한다면 메모리 낭비를 방지 할 수 있다.
-    - 또 싱글톤으로 구현한 인스턴스는 전역 이므로 다른 클래스의 인스턴스들이 데이터를 공유하는 것이 가능한 장점이 있다.
-
-  - 스프링 컨테이너는 싱글톤 패턴을 적용하지 않아도, 객체 인스턴스를 싱글톤으로 관리한다.
-  - 그래서 스프링 컨테이너는 싱글톤 패턴의 문제점을 해결하면서, 객체 인스턴스를 싱글톤(1개만 생성) 으로 관리한다.
-  - 지금까지 써 왔던 스프링 빈이 바로 싱글톤 패턴으로 관리되는 빈이다.
- 
-</div>
-</details>
-
-
-<details>
-<summary>call by value vs call by reference</summary>
-<div markdown="1">
-  
-  - call by value(값에 의한 호출)
-    - 함수가 호출될 때, 메모리 공간 안에서는 함수를 위한 별도의 임시공간이 생성됨(종료 시 해당 공간 사라짐)
-    - call by value 호출 방식은 함수 호출 시 전달되는 변수 값을 복사해서 함수 인자로 전달함
-    - 이때 복사된 인자는 함수 안에서 지역적으로 사용되기 때문에 local value 속성을 가짐
-    - 따라서 함수 안에서 인자 값이 변경되어도, 외부 변수 값은 변경 안됨.
-  
-  - call by reference(참조에 의한 호출)
-    - call by reference 호출 방식은 함수 호출 시 인자로 전달되는 변수의 레퍼런스를 전달함
-    - 따라서 함수 안에서 인자 값이 변경되면, 아규먼트로 전달된 객체의 값도 변경됨.
-
-</div>
-</details>
-
-
-<details>
-<summary>생성자 주입</summary>
-<div markdown="1">
-
-  - 생성자 호출 시점에 딱 1번만 호출되는 것이 보장됩니다.
-  - 생성자 주입은 객체를 생성할 때 딱 1번만 호출되므로 이후에 호출되는 일이 없습니다. 따라서 불변하게 설계 할 수 있습니다.
-  - 생성자 주입을 사용하면 의존성 주입을 누락하는 것을 방지 할 수 있습니다. 컴파일 오류로 누락을 방지
-  - setter 를 사용하면 final이 assgin reference 인데, 이를 변경할 수 있음.
-  - 원하는 구현체를 주입할 수 있으며, 순수 자바코드로 테스트를 실행할 수 있습니다.
-</div>
-</details>
-
 
 <details>
 <summary>쿠키와 세션</summary>
@@ -504,6 +503,7 @@
 </div>
 </details>
 
+## 자료구조
 
 <details>
 <summary>Stack</summary>
@@ -538,3 +538,30 @@
 
 </div>
 </details>
+
+
+##
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
