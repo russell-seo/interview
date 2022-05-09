@@ -240,6 +240,70 @@
   - 원하는 구현체를 주입할 수 있으며, 순수 자바코드로 테스트를 실행할 수 있습니다.
 </div>
 </details>
+
+<details>
+<summary>생성자 vs 정적 팩토리 메서드</summary>
+<div markdown="1">
+  
+  - 생성자와 정적 팩토리 메서드의 차이는 정적 팩토리 메서드의 장단점으로 알 수 있다.
+  - 정적 팩토리 메서드의 장점
+    - 이름을 가질 수 있다.
+    - 반드시 새로운 객체를 만들 필요가 없다. 불변 객체를 캐싱하거나, Validation을 처리할 수 있다.
+    - 반환 타입의 하위 타입 객체를 반환할 수 있는 능력이 있다.
+    - 입력 매개변수에 따라 매번 다른 클래스의 객체를 반환할 수 있다.
+    - static 팩토리 메서드를 작성하는 시점에는 반환할 객체의 클래스가 존재하지 않아도된다.
+  
+ - 단점
+    - 상속하려면 public, protected 생성자가 필요하니, 정적 팩토리 메서드만 제공하면 하위 클래스를 만들 수 없다.
+    - static 팩토리 메서드는 프로그래머가 찾기 어렵다.
+
+  </div>
+</details>
+
+<details>
+<summary>String 객체는 객체인데 왜 New 로 선언하지 않는가?</summary>
+<div markdown="1">
+  
+  - `String`은 대표적 불변 객체로, String 상수 풀 영역에서 객체를 관리한다.
+  - 즉 상수처럼 이미 선언된 String 객체가 있으면 이 영역에서 가져다 사용하고 없다면 여기에 새롭개 객체를 생성하여 사용한다.
+
+  
+</div>
+</details>
+
+
+<details>
+<summary>""와 new String("") 차이</summary>
+<div markdown="1">
+  
+  - `""`는 Heap 내의 별도 공간인 String 상수 풀 영역에 문자열을 생성하고, 같은 문자열은 한번만 생성한다.
+    - String 상수 풀 영역에 생성되는 String 은 불변이다.
+  - `new String()`은 일반 클래스와 동일하게 Heap에 문자열 객체로 생성된다.
+  
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+  
+</div>
+</details>  
+
+
+<details>
+<summary></summary>
+<div markdown="1">
+  
+</div>
+</details>  
+
+<details>
+<summary></summary>
+<div markdown="1">
+  
+</div>
+</details>  
   
   ## DB 
   
