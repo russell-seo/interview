@@ -284,16 +284,35 @@
 </details>
 
 <details>
-<summary></summary>
+<summary>JVM</summary>
 <div markdown="1">
+  
+  - JVM 이란?
+    - 자바 가상 머신
+    - 자바 바이트코드를 실행할 수 있게 해주는 주체
+  
+  - 특징
+    - WORA(Write Once, Run Anywhere)
+      - JVM은 플랫폼에 독립적이며, 모든 자바 가상 머신은 자바 가상 머신 규격에 정의된 대로 자바 바이트 코드를 실행한다.(스펙)
+      - 모든 자바 프로그램은 CPU나 운영체제의 종류와 상관없이 동일하게 동작한다.
+      - 윈도우, 맥, 리눅스등 운영체제에 종속적이지 않다.
+  - GC
+    - 클래스 인스턴스는 사용자 코드에 의해 명시적으로 생성되고, GC에 의해 자동적으로 소멸된다.
   
 </div>
 </details>  
 
 
 <details>
-<summary></summary>
+<summary>자바 프로그램의 동작 과정</summary>
 <div markdown="1">
+  
+  1. JAVA 소스 코드 파일(.java)를 JAVA 컴파일러(javac)로 바이트코드(.class)로 변환
+  
+  2.  JVM 내에 있는 Class Loader가 runtime data area로 바이트 코드 파일을 적재한다.
+      - Loading -> Linking -> Initializing
+  
+  3. JVM 내에 있는 execution engine(Interpreter, JIT Compiler, GC)이 runtime data area에 적재된 바이트 코드를 기계어로 변경해 명령어 단위로 실행한다.
   
 </div>
 </details>  
