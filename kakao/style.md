@@ -3,11 +3,17 @@
 # 카카오 스타일(지그재그 백엔드 면접 질문 내용)
 
   
-  ## Spring @Transactional 동작 원리
   
+  <details>
+  <summary>## Spring @Transactional 동작 원리</summary>
+  <div markdown="1"> 
+    
    - 먼저 정리해서 얘기하자면
+    
       1. 스프링은 @Transactional 어노테이션을 가진 메서드를 발견하면, 다이나믹 프록시를 만든다.
+    
       2. 해당 프록시 객체는 `TransactionManager`에게 트랜잭션 동작을 위임하는 코드를 가진다.
+    
       3. 트랜잭션 매니저는 아래 코드처럼, JDBC 코드를 통해 트랜잭션을 실행한다.
      
    - JDBC 에서 개발자가 직접 트랜잭션을 관리하는 방법은 한가지 밖에 없다.
@@ -131,5 +137,35 @@
           noRollbackFor : 트랜잭션을 롤백하지 않을 예외 타입 설정
           timeout : 트랜잭션 타임아웃 시간 설정
    
-   
-   
+   </div>
+   </details>
+
+   <details>
+  <summary>Checked Exception vs Unchecked Exception</summary>
+  <div markdown="1"> 
+    
+    
+  `Checked Exception` 과 `Unchecked Exception`의 차이를 알아보기 전에 먼저 예외가 먼지 알아볼 필요가 있다.
+    
+   - 예외란?
+    
+      - 입력값에 대한 처리가 불가능 하거나 프로그램 실행중에 참조된 값이 잘못된 경우 등 정상적으로 프로그램의 흐름에서 어긋나는 것을 말한다.
+      - 자바에서 예외는 개발자가 직접 처리할 수 있기 때문에 예외 상황을 미리 예측하여 핸들링 한다.
+    
+   - Checked Exception
+        - RuntimeException을 상속하지 않은 클래스를 Checked Exception 이라고 한다.
+        - 예외 발생 시 트랜잭션을 롤백하지 않고 예외를 던져준다.(스프링 트랜잭션이 선언된 메소드나 클래스에서)
+    
+   - UnChecked Exception
+        - RuntimeException을 상속하는 클래스를 UnChecked Exception 이라고 한다.
+        - 예외 발생시 트랜잭션을 rollback 한다.(트랜잭션이 선언된 메소드나 클래스에서)
+        - Try-catc문을 이용해서 RuntimeException을 잡더라도 롤백이 발생한다.
+    
+    
+ [관련 블로그(우아한형제)](https://techblog.woowahan.com/2606/)
+    
+ [트랜잭션 롤백 관련 블로그](https://suhwan.dev/2020/01/16/spring-transaction-common-mistakes/)
+    
+    
+   </div>
+   </details>
