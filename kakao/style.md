@@ -4,6 +4,11 @@
 
   
   ## Spring @Transactional 동작 원리
+  
+   - 먼저 정리해서 얘기하자면
+      1. 스프링은 @Transactional 어노테이션을 가진 메서드를 발견하면, 다이나믹 프록시를 만든다.
+      2. 해당 프록시 객체는 `TransactionManager`에게 트랜잭션 동작을 위임하는 코드를 가진다.
+      3. 트랜잭션 매니저는 아래 코드처럼, JDBC 코드를 통해 트랜잭션을 실행한다.
      
    - JDBC 에서 개발자가 직접 트랜잭션을 관리하는 방법은 한가지 밖에 없다.
       ~~~java
@@ -80,5 +85,51 @@
     
     사용법 1 - TransactionTemlpate 사용
     
-    스프링IoC, AOP를 사용하지 않고, 코드로 직접 사용하는 
+    스프링IoC, AOP를 사용하지 않고, 코드로 직접 사용하는 방법이다. 보통 TransactionTemplate를 사용한다.(이 객체는 내부에 PlatformTransactionManager를 사용하고 있다)
     
+    ~~~java
+    
+    @Service
+    public class UserService{
+    
+        @Autowired
+        private TransactionTemplate template;
+        
+        public Long registerUser(User user){
+            Long id = template.execute(status ->{
+            
+                //SQL 실행
+                
+                return id;
+            
+            });
+        
+        }
+    
+    }
+    
+    ~~~
+    
+   물론 @Trnasactional 이 간편하기 때문에 잘 사용하지 않는 방법이다.
+   
+   다이나믹 프록시의 원리상, @Transactional 의 경우 클래스나 메서드 단위로 밖에 걸수 없다.
+   
+   예를 들어 [상품구매 - 이메일발송] 인데, 이메일 발송이 취소되었다고 트랜잭션에 의해 롤백 되면 안된다.
+   
+   이럴 경우 @Transactional 으로 해결하기엔 애매한 상황이 온다.
+   
+   
+   - 프록시 특성상, 트랜잭션은 외부에서 doInternalTransaction()을 호출할 때만 걸린다.
+   - 스프링 트랜잭션은 메서드 시작시 커넥션이 생성되고, 메서드 종료시에 커넥션을 풀에 반환한다.
+   - 트랜잭션을 세부적으로 걸고 싶다면 아래와 같이 TransactionalTemplate를 사용하면 된다.
+
+          @Transcational에서 지원하는 옵션은 당연히 Template에도 있습니다.
+          propagation : 트랜잭션 전파 규칙 설정
+          isolation : 트랜잭션 격리 레벨 설정
+          readOnly : 읽기 전용 여부 설정
+          rollbackFor : 트랜잭션을 롤백할 예외 타입 설정
+          noRollbackFor : 트랜잭션을 롤백하지 않을 예외 타입 설정
+          timeout : 트랜잭션 타임아웃 시간 설정
+   
+   
+   
