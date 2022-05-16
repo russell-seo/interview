@@ -190,3 +190,11 @@
     
   </div>
   </details>
+  
+  
+  <details>
+  <summary>Redis 내부동작</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
