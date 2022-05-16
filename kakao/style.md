@@ -5,7 +5,7 @@
   
   
   <details>
-  <summary>## Spring @Transactional 동작 원리</summary>
+  <summary>Spring @Transactional 동작 원리</summary>
   <div markdown="1"> 
     
    - 먼저 정리해서 얘기하자면
@@ -194,6 +194,83 @@
   
   <details>
   <summary>Redis 내부동작</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>Java8 GC(Garbage Collector)</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>AWS S3 업데이트</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>ElasticSearch 노드 설계</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>Redis AOF는 왜 끄나?</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>Redis Ziplist 자료구조에 대해</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>서버에 올릴때 메모리를 어떻게 잡나?</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>Spring Boot Test Mocking</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>JWT 데이터 암호화 어떻게?</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>토큰 만료시 처리 방안, 시간 설정 어떻게?, 어디에서 토큰 처리?</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>JWT Header, Payload, Signature에 대해</summary>
+  <div markdown="1">
+    
+  </div>
+  </details>
+  
+   <details>
+  <summary>JWT 데이터를 왜 굳이 암호화? 어차피 복호화 해야되는데?</summary>
   <div markdown="1">
     
   </div>
