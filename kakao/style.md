@@ -196,6 +196,19 @@
   <summary>Redis 내부동작</summary>
   <div markdown="1">
     
+   - Redis Single Thread
+        - 명령어를 실행하는 코어 부분은 Single Thread
+        - 결국은 싱글스레드라 atomic 유지
+        - 단일 스레드를 사용하여 불필요한 context Switching 및 lock을 고려할 필요가 없고 deadlock이 없어 성능 소모가 없습니다.
+        - 주요 명령어는 O(1) 성능을 보이지만, 데이터가 많을 경우 여러개의 키를 다루는 명렁어가 O(n) 성능을 보인다.
+    
+   - Redis는 휘발성 Memory에 데이터를 저장하기 때문에 Persistent를 지원하기 위해 RDB와 AOF를 지원한다.
+        - RDB Snapshot
+            - Redis는 Single Thread로 동작하기 때문에 Snapshot을 뜨는 (SAVE)시점에서는 모든 명령어 수행이 제한 대신 백그라운드에서 스냅샷을 뜨는 (BGSAVE)를 지원합니다.
+            - 스냅샷은 RDB에서도 사용하고 있는 어떤 특정 시점의 데이터를 DISK에 옮겨담는 방식을 뜻합니다. Blocking 방식의 SAVVE와 Non-blocking 방식의 BGSAVE 방식이 있다.
+        - AOF
+            - Redis에 데이터를 저장하기 전에 수행되는 명령어들을 별도로 저장하여 해당 명령어로 persistent를 유지할 수 있도록 해줍니다.
+            - Redis의 모든 Write/update 연산 자체를 모두 log 파일에 기록하는 형태이다. 서버가 재시작 할 때 write/update를 순차적으로 재실행, 데이터 복구를 한다.
   </div>
   </details>
   
@@ -203,6 +216,43 @@
   <summary>Java8 GC(Garbage Collector)</summary>
   <div markdown="1">
     
+     - JAVA 8 의 Default GC는 병렬 GC이다.
+        
+          - Parallel GC
+            - 이 방식은 `throughput collector`로도 알려진 방식이다. 이 방식의 목표는 `다른 CPU가 대기 상태로 남아 있는 것을 최소화 하는 것이다`.
+    
+            - 시리얼 콜렉터와 달리 Young 영역에서의 콜렉션을 병렬로 처리한다. 많은 CPU를 사용하기 떄문에 GC의 부하를 줄이고 어플리케이션의 처리량을 증가시킬 수 있다.
+            - Young 영역의 GC를 멀티 스레드 방식으로 사용하기 때문에, Serial GC에 비해 상대적으로 Stop the world가 짧다.
+               - Old 영역은 아님
+               - Old 영역의 GC는 시리얼 콜렉터와 마찬가지로 Mark-Sweep-Compact 콜렉션 알고리즘을 사용한다. 
+    
+          > Mark-sweep-compact 알고리즘
+          > 1. Old 영역으로 이동된 객체들 중 살아 있는 개체를 식별한다(Mark)
+            2. Old 영역의 객체들을 훓는 작업을 수행하여 쓰레기 객체를 식별한다.(Sweep)
+            3. 필요없는 객체들을 지우고 살아 있는 객체들을 한 곳으로 모은다.(Compact)
+    
+     - JAVA 11의 Default 는 G1 GC 이다.
+            
+           - G1 GC
+              - JAVA 9 부터 default GC
+              - 현재 GC중 Stop-the-world의 시간이 제일 짧음
+              - 어떠한 GC 방식보다 처리 속도가 빠르며 큰 메모리 공간에서 멀티 프로세스 기반으로 운영되는 애플리케이션을 위해 고안되었다.
+              - CMS CG를 개선하여 만든 GC로 위에서 살펴본 GC와는 다른구조를 가진다.
+           - Heap을 Region이라는 일정한 부분으로 나눠서 메모리를 관리한다.
+             - 기존 GC처럼 물리적인 영역으로 나누지 않고, Region(지역)이라는 개념을 새로 도입하여 Heap을 균등하게 여러 개의 지역으로 나누고, 각 지역을 역할과 함께 논리적으로 구분하여(Eden 지역인지, Survivor 지역인지, Old 지역인지) 객체를 할당한다.
+          
+            - G1 GC에서는 Eden, Survivor, Old 역할에 더해 Humongous와 Availalbe/Unused라는 2가지 역할을 추가하였다.
+            - Humongous는 Region 크기의 50%를 초과하는 객체를 저장하는 Region을 의미하여, Available/Unused는 사용되지 않는 Region을 의미한다.
+            - G1 GC의 핵심은 전체 Heap에 대해서 탐색하지 않고 부분적으로 Region 단위로 탐색하여, 가비지가 많은 Region에만 우선적으로 GC를 수행하는 것이다.
+            - G1 GC도 다른 가비지 컬렉션과 마찬가지로 2가지 GC(Minor GC, Major GC) 로 나누어 수행된다.
+                - Minor GC
+                  - 한 지역에 객체를 할당하다가 해당 지역이 꽉 차면 다른 지역에 객체를 할당하고 Minor GC가 실행된다. G1 GC는 각 지역을 추적하고 있기 때문에, 가비지가 가장 많은 지역을 찾아서 Mark and Sweep을 수행한다.
+                  - Eden 지역에서 GC가 수행되면 살아남은 객체는 식별(Mark)하고, 메모리를 회수(Sweep)한다. 그리고 살아남은 객체를 다른지역으로 이동시키게 된다. 복제되는 지역은 Available/Unused 지역이면 해당 지역은 이제 Survivor 영역이 되고, Eden 영역은 Available/Unused 지역이 된다.
+    
+                - Major GC
+                  - 시스템이 계속 운영되다가 객체가 너무 많아 빠르게 메모리를 회수 할 수 없을 때 Major GC가 실행된다. 그리고 여기서 G1 GC와 다른 GC의 차이점이 두각을 보인다.
+                  
+                  - 기존의 다른 GC 알고리즘은 모든 Heap 영역에서 GC가 수행되었으며, 그에 따라 처리 시간이 상당히 오래 걸림. 하지만 G1 GC는 어느 영역에 가비지가 많은지 알고 있기 떄문에 GC를 수행할 지역을 조합하여 해당 지역에 대해서만 GC를 수행한다. 그리고 이러한 작업은 Concurrent 하게 수행되기 때문에 어플리케이션의 지연도 최소화 할 수 있는 것이다.
   </div>
   </details>
   
