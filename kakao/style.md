@@ -187,6 +187,9 @@
           - 공용 PC에서 쿠키 값 유출
             - 쿠키는 사용자의 하드 디스크에 저장되기 때문에 공용 PC인 경우 쉽게 탈취가 가능
     
+    - 토큰만 가지고 사용자 식별 및 유효성 검사를 하므로 서버를 `무상태로(stateless)` 로 관리할 수 있다.
+      - DB조회나 캐시 데이터 조회 없이 로직만으로 인증이 가능하여 애플리케이션 서버를 확장하는데 용이하다.
+    
     
   </div>
   </details>
@@ -274,6 +277,8 @@
   <summary>Redis AOF는 왜 끄나?</summary>
   <div markdown="1">
     
+    - 
+    
   </div>
   </details>
   
@@ -315,6 +320,18 @@
    <details>
   <summary>JWT Header, Payload, Signature에 대해</summary>
   <div markdown="1">
+    
+    - JWT
+        - Header 는 JWT를 생성하는 알고리즘과 타입으로 구성되어있다.
+    
+        - Payload 는 데이터들을 담아서 Base64로 인코딩 한다.
+          - Payload는 암호화 하지않아 어떤 누구도 데이터를 들여다 볼 수 있다. 그래서 최소한의 정보만을 담아서 인코딩해야한다.
+    
+        - Signature 은 Header 와 Payload 값의 위조와 변조에 대해 검증하기 위해 사용하는 부분이다.
+           - Header 에 지정한 alg 으로 인코딩한다. 이때 비밀키를 사용하여 서명한다.
+        
+
+    
     
   </div>
   </details>
