@@ -3,7 +3,7 @@
   
   [카카오스타일 백엔드 면접 질문](https://github.com/russell-seo/interview/blob/main/kakao/style.md)
   
-  [오늘 식탁 백엔드 면접 질문]()
+  [오늘 식탁 백엔드 면접 질문](https://github.com/russell-seo/interview/blob/main/todaytable.md)
 
   ## 기술 면접 관련 기록
   
