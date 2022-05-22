@@ -307,12 +307,22 @@
   <summary>JWT 데이터 암호화 어떻게?</summary>
   <div markdown="1">
     
+    - JWT 암호화는 기본적으로 공개 키 암호 방식(PKC, Public Key Cryptograpyh)를 사용하는데
+      비대칭 암호 방식을 이용해 공개 키와 비밀 키를 생성하고 이 키들을 상황에 따라 나누어 가지고 통신한다.
+    
+    - 서명은 비밀 키가 있는 곳에서만 할 수 있고 공개 키를 가진 어느 곳에서나 이 데이터의 서명을 검증할 수 있다.
+      
+    - 필자는 프로젝트에서 대칭 알고리즘(1개의 secret key를 공유하는 알고리즘) 인 HS256으로 암호화 하였다.
+    
+    - Signature로 Header와 Payload 데이터를 base64로 인코딩 한 값이 변조되었는지 아닌지 검사한다.
   </div>
   </details>
   
    <details>
   <summary>토큰 만료시 처리 방안, 시간 설정 어떻게?, 어디에서 토큰 처리?</summary>
   <div markdown="1">
+    
+    - 
     
   </div>
   </details>
