@@ -299,16 +299,16 @@
   <summary>Redis Ziplist 자료구조에 대해</summary>
   <div markdown="1">
     
-    - Ziplist 란?
+   - Ziplist 란?
       
       - 기존에 할당받은 메모리를 필요한 만큼 늘려서 저장하는 것이다. 
       
-      - <zlbytes><zltail><zllen><entry><entry><zlend> 구조로 생겨먹었다.
-        - <zlbytes>, <zltail>, <zllen>이 Header 부분이다. 
-        - <zlbytes> 는 ziplist의 전체 크기로 byte 단위이다. 자료형은 unsigned integer 이다. 4bytes
-        - <zltail>은 tail Entry가 시작 offset을 가진다. 이것도 unsigned integer. 4bytes
-        - <zllength> 는 16byte이고 zliplist entry의 갯수이다. 2bytes
-        - <zlend>는 1byte 이고, 255인 경우 ziplist의 끝을 뜻한다.
+      - `zlbytes,zltail,zllenentry,entry,zlend` 구조로 생겨먹었다.
+        - zlbytes, zltail, zllen이 Header 부분이다. 
+        - zlbytes 는 ziplist의 전체 크기로 byte 단위이다. 자료형은 unsigned integer 이다. 4bytes
+        - zltail은 tail Entry가 시작 offset을 가진다. 이것도 unsigned integer. 4bytes
+        - zllength 는 16byte이고 zliplist entry의 갯수이다. 2bytes
+        - zlend는 1byte 이고, 255인 경우 ziplist의 끝을 뜻한다.
         - 선형적인 자료구조이기 때문에 O(N)의 시간복잡도를 가진다.
       
       - Header의 바이트수를 모두 합하면 10bytes 이다.
