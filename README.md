@@ -85,6 +85,71 @@
         3. @EnableAutoConfiguration
 </div>
 </details>
+
+<details>
+<summary>Proxy</summary>
+<div markdown="1">
+  
+  - 일반적으로 Proxy는 실제 Target 의 기능을 대신 수행하면서, 기능을 확장하거나 추가하는 실제 객체를 의미합니다.
+    
+    - 왜 사용할까?
+      - OCP(Open-Closed Principle)을 지키기 위해서 사용한다.
+      - 개방 폐쇠 원칙(=OCP)란 소프트웨어는 확장에 대해 열려있어야 하고, 수정에 대해서는 닫혀 있어야 한다라는 원칙 때문이다.
+    
+    - 어떻게?
+      - Proxy를 이용한 런타임 위빙(Runtime Weaving)을 통해서 관심사를 추출할 수 있다.
+      - 런타임 위빙 이란?
+        - Weaving 은 target 객체를 새로운 proxied 객체로 적용시키는 과정이다.
+      
+    - Spring AOP 에서는 이러한 기능을 2가지 방법으로 구현하였다.
+      
+      - JDK Dynamic Proxy
+      - CGlib Proxy
+  
+        - JDK Dynamic Proxy
+          - JDK에서 제공하는 Dynamic Proxy는 1.3버전 부터 생긴 기능이다
+          - `인터페이스를 기반으로 Proxy를 생성해주는 방식이다`
+          - Dynamic Proxy는 Invocation Handler를 상속받아서 실체를 구현하게 되는데, 이 과정에서 `특정 Object 에 대해 Reflection을 사용하기때문에 성능이 조금 떨어지는 크리티컬 한 단점이 있다.`
+          
+        - CGlib
+          - Enhancer를 바탕으로 Proxy를 구현하는 방식이다.
+          - Extends(상속)방식을 이용해서 Proxy화 할 메소드를 오버라이딩 하는 방식이다.
+          - CGlib은 기본적으로 Byte코드를 조작해서, 바이너리가 만들어지기 때문에 JDK Dynamic Proxy 보다 성능적으로 우세하다.
+          - CGlib에서 실제로 핸들링할 Handler 가 필요한데, CGlib 에서는 이를 `MethodInterceptor` 라는 인터페이스로 정의되어 있다.
+          - 다만 final 객체 혹은 private 접근자로 된 메소드는 상속이 지원되지 않기 때문에 제약적인 Proxy 구현이 가능하다.
+  
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+  
+  - 
+  
+  
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+  
+  - 
+  
+  
+</div>
+</details>
+
+<details>
+<summary></summary>
+<div markdown="1">
+  
+  - 
+  
+  
+</div>
+</details>
   
   ## JAVA
   
