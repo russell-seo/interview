@@ -13,7 +13,10 @@
 
    - 인덱스의 동작원리?
       - 데이터 파일의 블록이 10만개가 있다고 가정할때 select문 실행시
-      - server process 가 
+      - server process 가 구문분석과정을 마친 후 database buffer cache 조건에 부합하는 데이터가 있는지 확인
+      - 해당 정보가 buffer cahce에 없다면 디스크 파일에서 조건에 부합하는 블럭을 찾아 database buffer cache에 가져온 뒤 사용자에게 보여줌.
+      - 이 경우 인덱스가 없으면 10만개 전부 database buffer cache에 조건에 부합하는 데이터가 있는지 확인
+      - 인덱스가 있으면 where 절의 조건의 컬럼이 index의 키로 생성되어 있는지 확인 한 뒤 인덱스에 먼저 가서 조건에 부합하는 정보가 어떤 ROWID를 가지고 있는지 확인 후 ROWID에 있는 블럭을 찾아가 해당 블럭한 buffer cache에 복사.
     
   ## 2. JPA 카다시안 곱 문제를 부딪힌적 있는가?
   
