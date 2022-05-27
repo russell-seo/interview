@@ -140,11 +140,96 @@
 </details>
 
 <details>
-<summary></summary>
+<summary>트랜잭션 격리 수준(Isolation Level)</summary>
 <div markdown="1">
   
-  - 
+  - 트랜잭션 격리수준 이란?
+    - 동시에 여러 트랜잭션이 처리될 때, 트랜잭션끼리 얼마나 서로 고립되어 있는지를 나타내는 것입니다. 즉 간단하게 말해 특정 트랜잭션이 다른 트랜잭션에 변경한 데이터를 볼수 있도록 허용할지 말지를 결정하는 것 입니다.
   
+  - READ UNCOMMITTED
+  - READ COMMITTED
+  - REPEATABLE READ
+  - SERIALIZABLE
+  
+  아래로 내려 갈 수록 고립 정도가 높아지며, 성능이 떨어지는 것이 일반적입니다.
+  
+  현재 저는 mysql 기반인 MariaDB를 사용 중인데 격리 수준이 디폴트인 `REPEATABLE READ` 입니다. 오라클인 경우에는 `READ COMMITTED`라고 합니다.
+  
+  1. READ UNCOMMITTED
+  
+  READ UNCOMMITTE의 격리수준에서는 어떤 트랜잭션 변경 내용이 COMMIT 이나 ROLLBACK과 상관없이 다른 트랜잭션에서 보여집니다.
+  
+  이 격리수준 에서는 아래와 같은 문제가 발생합니다.
+    1. A 트랜잭션에서 테이블의 데이터를 수정중인 상태이고 아직 커밋하지 않았습니다.
+    2. B 트랜잭션에서 A 트랜잭션이 수정 중인 데이터를 조회 함. 이를 Dirty Read라고 한다.
+    3. A 트랜잭션에서 문제가 발생해 ROLLBACK 함
+    4. B 트랜잭션은 커밋되지 않은 데이터를 바라보고 로직을 수행한다.
+  
+  이런식으로 데이터 정합성에 문제가 많으므로 RDBMS 표준에서는 격리수준으로 인정하지 않는다.
+  
+  2. READ COMMITTED
+  
+  어떤 트랜잭션의 변경 내용이 COMMIT 되어야만 다른 트랜잭션에서 조회할 수 있다. 오라클 DBMS 에서 기본적으로 사용하고 있고, 온라인 서비스에서 가장 많이 격리되는 수준이다.
+  
+  여기서는 B 트랜잭션에서 A 트랜잭션에서 커밋이나 롤백하기전 까지는 DIRTY READ가 발생하지 않습니다.(UNDO 영역에 저장된 데이터를 참조)
+  
+  언뜻보면 정합성 문제가 해결된 것 처럼 보이지만, 여기서 NON-REPEATABLE READ 부정합 문제가 발생할 수 있다.
+  
+    1. B 트랜잭션에서 10번 상품의 총 투자공모금액을 조회
+    2. 100만원이 조회됨
+    3. A 트랜잭션에서 10번 상품의 총 투자공모금액을 120만원으로 바꾸고 커밋
+    4. B 트랜잭션에서 10번 상품의 총 투자공모금액을 다시 조회
+    5. 120만원이 조회됨.
+  
+  이는 하나의 트랜잭션내에서 동일한 SELECT를 수행했을 경우 항상 같은 결과를 반환해야 하는 REPEATABLE READ 정합성에 어긋나는 것 입니다.
+  
+  일반적인 웹 어플리케이션에서는 크게 문제되지 않지만, 작업이 금전적인 처리와 연결되어 있다면 문제가 발생할 수 있습니다.
+  
+  예를 들어 트랜잭션에서 입금/출금 처리가 계속 진행되는 트랜잭션들이 있고, 오늘의 입금 총 합을 보여주는 트랜잭션이 있다고 하면, 총합을 계산하는 SELECT 쿼리는 실행될 때 마다 다른 결과 값을 가져올 것 입니다.
+  
+  이런 문제가 발생할 수 있기 때문에 격리수준에 의해 실행되는 SQL 문장이 어떤 결과를 출력할 지 정확히 예측하고 있어야 합니다.
+  
+  
+  3. REPEATABLE READ
+  
+  REPEATABLE READ 격리수준은 간단하게 말해서 트랜잭션이 시작되기 전에 커밋된 내용에 대해서만 조회할 수 있는 격리수준 이다.
+  
+  MYSQL DMBS에서 기본적으로 사용하고 있고, 이 격리수준에서는 NON-REPEATABLE READ 부정합이 발생하지 않는다.
+  
+    1. 10번 트랜잭션이 2번 상품을 조회
+    2. 12번 트랜잭션이 2번 상품의 총 투자공모금액을 변경하고 커밋
+    3. 10번 트랜잭션이 2번 상품을 다시 조회
+    4. 언두 영역에 백업된 데이터를 반환
+  
+  즉, 자신의 트랜잭션 번호보다 낮은 트랜잭션 번호에서 변경된(+커밋된) 것만 보게 되는 것 입니다.
+  
+  REPEATABLE READ 격리수준에서는 트랜잭션이 시작된 시점의 데이터를 일간되게 보여주는 것을 보장해야 하기 때문에 한 트랜잭션 실행시간이 길어질수록 해당 시간 만큼 계쏙 멀티 버전을 관리해야 하는 단점이 있다.
+  
+  하지만 실제로 영향을 미칠 정도로 오래 지속되는 경우는 없어서 READ COMMITTED와 REPEATABLE READ의 성능 차이는 거의 없다고 합니다.
+  
+  REPEATABLE READ에서 발생할 수 있는 데이터 부정합
+  ~~~
+  START TRANSACTION; -- transaction id : 1
+  select * from Member where name = "sangwon";
+  
+    START TRANSACTION; -- transaction id : 2
+    select * from Member where name = "sangwon";
+    update Member SET name = "russell" where name = "sangwon";
+    COMMIT;
+  
+   UPDATE Member SET name = "gucci" where name = "sangwon"; -- 0 row(s) affected
+   COMMIT;
+  ~~~
+  
+  이 상황에서 최종 결과는 `name = russell`이 된다. REPEATABLE READ이기 때문에 2번 트랜잭션에서 name = russell 로 변경하고 commit을 하면
+  
+  name = sangwon의 내용을 `UNDO` 세그먼트에 남겨놔야 합니다. 그래야 1번 트랜잭션이 일관되게 데이터를 보는 것을 보장해 줄 수 있기 때문입니다.
+  
+  이 상황에서 아래 구문에서 UPDATE문을 실행하게 되는데, UPDATE의 경우 변경을 수행할 로우에 대해 잠금이 필요합니다. 하지만 1번 트랜잭션이 바라보고 있는 
+  
+  name = sangwon의 경우 레코드데이터가 아닌 UNDO영역의 데이터이고, UNDO영역에 있는 데이터에 대해서는 쓰기 잠금을 걸 수가 없습니다.
+  
+  그러므로 위에 UPDATE 구문은 레코드에 대해 쓰기 잠금을 시도하려고 하지만 name=junyoung인 레코드는 존재하지 않으므로, 0 row(s) affected가 출력되고 아무 변경도 일어나지 않게 됩니다. 그러므로 최종 결과는 name=russell 입니다.
   
 </div>
 </details>
