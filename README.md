@@ -541,8 +541,143 @@
 </details>
 
 <details>
-<summary>깊은복사 vs 얕은</summary>
+<summary>깊은복사(Deep Copy) vs 얕은복사(Shallow Copy)</summary>
 <div markdown="1">
+  
+  - `깊은 복사(Deep Copy)` 는 `실제 값`을 새로운 메모리 공간에 복사하는 것을 의미
+  
+  - `얕은 복사(Shallow Copy)`는 `주소 값`을 복사한다는 의미이다.
+    
+    - `얕은 복사`의 경우 주소 값을 복사하기 때문에, `참조하고 있는 실제 값은 같다.`
+    
+  ~~~java
+  @Data
+  private class CopyObject{
+    private String name;
+    private int age;
+  }
+  
+  
+  class Test{
+  
+    @Test
+    void 얕은복사(){
+        CopyObject original = new CopyObject("russell", 20);
+        CopyObject copy = original; //얕은 복사
+  
+        copy.setName("mike");
+    }
+  }
+  
+  ~~~
+  
+  위 코드에서는 copy 객체에 set메소드를 통해 이름을 변경했는데, 실제 결과는 original 객체와 copy 객체 모두 값이 변경된다.
+  
+  `CopyObject copy = original` 의 코드에서 객체의 얕은 복사를 통해 `주소 값`을 변경했기 때문에 참조하고 있는 실제 값은 동일하고, `복사한 객체가 변경된다면 기존의 객체도 변경되는 것이다.`
+  
+  위 상태에 대한 메모리 구조는 아래와 같다.
+  ~~~java
+  CopyObject original = new CopyObject("russell", 20);
+  CopyObject copy = original;
+  ~~~
+  
+  ![image](https://user-images.githubusercontent.com/79154652/175191628-ccdcfd40-fdb7-4a51-8c84-e26c546c36be.png)
+
+  
+
+  original 인스턴스를 생성하면 Stack 영역에 참조값이, Heap 영역에 실제 값이 저장된다.
+  
+  그리고 얕은 복사를 통해 객체를 복사했기 때문에 copy 인스턴스는 original 인스턴스가 참조하고 있는 Heap 영역의 참조값을 동일하게 보고 있는 상태가 된다.
+  
+  그 후 set 메소드를 통해 값을 변경하면 동일한 주소를 참조하고 있기 때문에 아래와 같이 된다.
+  
+  ![image](https://user-images.githubusercontent.com/79154652/175191883-9a33730a-1f39-4181-88d2-8378ceff2798.png)
+
+  따라서 코드로는 copy 객체의 name 만 변경했지만, `동일한 주소를 참조` 하고 있기 때문에 original의 객체에도 영향을 끼치게 된다.
+  
+  
+  
+  - 깊은 복사(Deep Copy)
+    - 깊은 복사를 구현하는 방법은 여러가지가 있습니다.
+      - Cloneable 인터페이스 구현
+      - 복사 생성자
+      - 복사 팩토리 등등...
+  
+    - Cloneable 인터페이스 구현
+    ~~~java
+       public class CopyObject implements Clonable {
+        private String name;
+        private int age;
+  
+    }
+  
+    @Override
+    protected CopyObject clone() throws CloneNotSupportedException {
+      return (CopyObject) super.clone();
+    }
+  
+    @Test
+    void 깊은복사() throws CloneNotSupportedException {
+        CopyObject original = new CopyObject("russell", 20);
+        CopyObject copy = original.clone();
+        
+        copy.setName("mike");
+    }
+    ~~~
+  
+    `깊은 복사를 통해 테스트를 진행해보면 얕은 복사와는 달리 original 인스턴스의 값은 변경되지 않는다.`
+  
+    original = russell;
+    
+    copy = mike;
+  
+    위와 같은 결과를 얻을 수 있다.
+  
+  
+  
+  - 복사생성자, 복사팩터리
+  
+  ~~~java
+  public class CopyObject{
+  
+    private String name;
+    private int age;
+  
+  
+  /*복사 생성자*/
+  public CopyObject(CopyObject original){
+    this.name = original.name;
+    this.age = original.age;
+  }
+  
+  public static CopyObject copy(CopyObject original){
+  
+    CopyObject copy = new CopyObject();
+    copy.name = original.name;
+    copy.age = original.age;
+    return copy;
+  }
+  
+  
+  
+  @Test
+  void 깊은복사(){
+    CopyObject original = new CopyObject("russell", 20);
+    CopyObject constructor = new CopyObject(original);
+    CopyObject copyFactory = CopyObject.copy(original);
+    
+    constrctor.setName("mike");
+    copyFactory.setName("jane");
+  }
+  }
+  
+  ~~~
+  
+  위와 같은 코드에서 original, constructor, copyFactory 이름을 찍어 보면 모두 다른 이름이 나오는 것을 볼 수 있다.
+  
+  ![image](https://user-images.githubusercontent.com/79154652/175193315-b8556850-7b6b-48ff-a9d5-87ecf6671630.png)
+
+    
   
   
 </div>
