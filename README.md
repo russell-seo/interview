@@ -538,6 +538,14 @@
       - 객체 생성 이후에 값을 변경할 수 없도록 만든다.
   
 </div>
+</details>
+
+<details>
+<summary>깊은복사 vs 얕은</summary>
+<div markdown="1">
+  
+  
+</div>
 </details>  
   
   ## DB 
